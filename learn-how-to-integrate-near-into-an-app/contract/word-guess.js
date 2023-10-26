@@ -6,13 +6,11 @@ export class WordGuess {
     this.secretWord = '';
     this.hints = new Vector('hints');
     this.guesses = new Vector('guesses');
-    this.contractCreator = 'me';
   }
 
   @initialize({})
   init({ secretWord }) {
     this.secretWord = secretWord;
-    this.contractCreator = near.predecessorAccountId();
     return `The secret word has been set to '${secretWord}'`;
   }
 
@@ -45,9 +43,6 @@ export class WordGuess {
       return `This game is finished. The secret word, '${this.secretWord}', was guessed by ${lastGuess.guesser}`;
     } else {
       const guesser = near.predecessorAccountId();
-      near.log(`\nguesser = ${guesser}`);
-      near.log(`\nguess = ${guess}`);
-
       this.guesses.push({ guesser, guess });
 
       if (guess === this.secretWord) {
@@ -56,10 +51,5 @@ export class WordGuess {
         return `Sorry, '${guess}' is not the secret word`;
       }
     }
-  }
-
-  @view({})
-  viewContractCreator() {
-    return `This contract was created by '${this.contractCreator}'`;
   }
 }

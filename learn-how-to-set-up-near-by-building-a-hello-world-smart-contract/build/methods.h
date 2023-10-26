@@ -1,0 +1,3 @@
+DEFINE_NEAR_METHOD(getGreeting)
+DEFINE_NEAR_METHOD(init)
+DEFINE_NEAR_METHOD(setGreeting)
