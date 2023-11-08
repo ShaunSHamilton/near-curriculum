@@ -1,35 +1,40 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <h1>Word Guess</h1>
-      <section>
-        <form action="#">
-          <label>
-            Guess
-            <input type="text" />
-          </label>
-          <button type="submit">Submit</button>
-        </form>
-        <button>Get Hint</button>
-      </section>
-        <section>
-        <h2>Hints</h2>
-        <ol id="hints">
 
-        </ol>
-      </section>
-      <section>
-        <h2>Guesses</h2>
-        <ol id="guesses">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Word Guess</title>
+</head>
 
-        </ol>
-      </section>
-    <script type="module" src="/main.js"></script>
-  </body>
+<body>
+  <h1>Word Guess</h1>
+  <section>
+    <button id="connect-wallet">Connect Wallet</button>
+    <form action="#">
+      <label>
+        Guess
+        <input type="text" id="guess" />
+      </label>
+      <button type="submit" id="guess-btn">Submit</button>
+    </form>
+    <p id="reponse"></p>
+    <button id="hints-btn">Get Hints</button>
+  </section>
+  <section>
+    <h2>Hints</h2>
+    <ol id="hints">
+
+    </ol>
+  </section>
+  <section>
+    <h2>Guesses</h2>
+    <ol id="guesses">
+
+    </ol>
+  </section>
+  <script type="module" src="/main.js"></script>
+</body>
+
 </html>
