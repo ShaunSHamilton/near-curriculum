@@ -40,12 +40,7 @@ export class Wallet {
     this.walletConnection.signOut();
   }
 
-  async viewMethod({ method, args = {} }) {
-    const response = await this.contract[method](args);
-    return response;
-  }
-
-  async callMethod({ method, args = {} }) {
+  async call({ method, args = {} }) {
     const response = await this.contract[method](args);
     return response;
   }

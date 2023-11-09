@@ -20,7 +20,7 @@ window.onload = async () => {
   }
   
   // Get guesses
-  const guesses = await wallet.viewMethod({method: 'viewGuesses'});
+  const guesses = await wallet.call({method: 'viewGuesses'});
   console.log(guesses);
   for (const guess of guesses) {
     const li = document.createElement('li');
@@ -53,13 +53,13 @@ connectWalletBtn.addEventListener('click', () => {
 
 guessBtn.addEventListener('click', async () => {
   const guess = guessIn.value;
-  const resp = await wallet.callMethod({method: "makeGuess", args: {guess}});
+  const resp = await wallet.call({method: "makeGuess", args: {guess}});
   console.log("response: ", resp);
   responseP.innerText = resp;
 });
 
 hintsBtn.addEventListener('click', async () => {
-  const hints = await wallet.viewMethod({method: "viewHints"});
+  const hints = await wallet.call({method: "viewHints"});
   for (const hint of hints) {
     const li = document.createElement("li");
     li.innerText = hint;

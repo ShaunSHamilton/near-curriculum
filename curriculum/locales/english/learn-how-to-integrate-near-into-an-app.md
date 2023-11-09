@@ -423,4 +423,186 @@ const lastOutput = splitOutput[splitOutput.length - 1];
 assert.match(lastOutput, /The secret word has been set/);
 ```
 
+## 15
+
+### --description--
+
+At the bottom of your `client/wallet.js` file, create a `const contractName` variable with the name of your testnet contract.
+
+### --tests--
+
+You should have `const contractName = "<ACCOUNT_NAME>.testnet"` at the bottom of your `client/wallet.js` file.
+
+```js
+
+```
+
+## 16
+
+### --description--
+
+Create a `const contractAccount` variable, and set the value to await `nearConnection.account(<CONTRACT_NAME>)`.
+
+### --tests--
+
+You should have `const contractAccount = await nearConnection.account(contractName);` at the bottom of your `client/wallet.js` file
+
+```js
+const codeString = await __helpers.getFile(join(project.dashedName,'client/wallet.js'));
+const babelisedCode = await __helpers.babeliser(code);
+const variableDeclaration = babelised.getVariableDeclarations().find(v => v.declarations?.[0]?.id?.name === 'contractAccount');
+const generatedCode = babelisedCode.generateCode(testCode, { compact: true });
+const rebabelisedCode = new __helpers.Babeliser(generatedCode);
+const actualCodeString = rebabelisedCode.generateCode(rebabelisedCode.parsedCode, { compact: true });
+
+const expectedCodeString = `const contractAccount=await nearConnection.account(contractName)`;
+assert.include(actualCodeString, expectedCodeString);
+```
+
+## 17
+
+### --description--
+
+Export a class named `Wallet` from `client/wallet.js`.
+
+### --tests--
+
+You should have `export class Wallet {}` in your `client/wallet.js` file.
+
+```js
+
+```
+
+## 18
+
+### --description--
+
+Add a `constructor` to the `Wallet` class.
+
+### --tests--
+
+You should have a `constructor` in your `Wallet` class.
+
+```js
+
+```
+
+## 19
+
+### --description--
+
+Within the `constructor`, initialize a `this.walletConnection` property. Set it to `new WalletConnection(nearConnection, <UNIQUE_NAME>)`.
+
+### --tests--
+
+You should have `this.walletConnection = new WalletConnection(nearConnection, <UNIQUE_NAME>);` in your `Wallet` class.
+
+```js
+
+```
+
+You should import `WalletConnection` from `near-api-js`.
+
+```js
+
+```
+
+## 20
+
+### --description--
+
+Within the `constructor`, initialize a `this.contract` property. Set it to `new Contract(contractAccount, contractName, {})`.
+
+### --tests--
+
+You should have `this.contract = new Contract(contractAccount, contractName, {});` in your `Wallet` class.
+
+```js
+
+```
+
+You should import `Contract` from `near-api-js`.
+
+```js
+
+```
+
+## 21
+
+### --description--
+
+For the contract, allow the `viewHints`, `viewGuesses`, and `makeGuess` methods to be called.
+
+### --tests--
+
+You should have `this.contract = new Contract(contractAccount, contractName, { viewMethods: ['viewHints', 'viewGuesses'], changeMethods: ['makeGuess'] });` in your `Wallet` class.
+
+```js
+
+```
+
+## 22
+
+### --description--
+
+Add an asynchronous method to your `Wallet` class named `call`.
+
+### --tests--
+
+You should have an asynchronous `call` method in your `Wallet` class.
+
+```js
+
+```
+
+## 23
+
+### --description--
+
+The `call` method should expect a parameter of `{method, args}`. Default the `args` to an empty object literal.
+
+### --tests--
+
+You should have `async call({method, args = {}}) {}` in your `Wallet` class.
+
+```js
+
+```
+
+## 24
+
+### --description--
+
+Within the `call` method, create a `const response` variable. Set it to `await this.contract[method](args)`.
+
+### --tests--
+
+You should have `const response = await this.contract[method](args);` in your `call` method.
+
+```js
+
+```
+
+## 25
+
+### --description--
+
+Within the `call` method, return the `response`.
+
+### --tests--
+
+You should have `return response;` in your `call` method.
+
+```js
+
+```
+
+## 26
+
+### --description--
+
+
+
+
+
 ## --fcc-end--
