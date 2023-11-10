@@ -427,11 +427,11 @@ assert.match(lastOutput, /The secret word has been set/);
 
 ### --description--
 
-At the bottom of your `client/wallet.js` file, create a `const contractName` variable with the name of your testnet contract.
+At the bottom of your `client/wallet.js` file, create a `const contractId` variable with the name of your testnet contract.
 
 ### --tests--
 
-You should have `const contractName = "<ACCOUNT_NAME>.testnet"` at the bottom of your `client/wallet.js` file.
+You should have `const contractId = "<ACCOUNT_NAME>.testnet"` at the bottom of your `client/wallet.js` file.
 
 ```js
 
@@ -441,11 +441,11 @@ You should have `const contractName = "<ACCOUNT_NAME>.testnet"` at the bottom of
 
 ### --description--
 
-Create a `const contractAccount` variable, and set the value to await `nearConnection.account(<CONTRACT_NAME>)`.
+Create a `const contractAccount` variable, and set the value to await `nearConnection.account("<ACCOUNT_NAME>")`.
 
 ### --tests--
 
-You should have `const contractAccount = await nearConnection.account(contractName);` at the bottom of your `client/wallet.js` file
+You should have `const contractAccount = await nearConnection.account("<ACCOUNT_NAME>");` at the bottom of your `client/wallet.js` file
 
 ```js
 const codeString = await __helpers.getFile(join(project.dashedName,'client/wallet.js'));
@@ -455,7 +455,7 @@ const generatedCode = babelisedCode.generateCode(testCode, { compact: true });
 const rebabelisedCode = new __helpers.Babeliser(generatedCode);
 const actualCodeString = rebabelisedCode.generateCode(rebabelisedCode.parsedCode, { compact: true });
 
-const expectedCodeString = `const contractAccount=await nearConnection.account(contractName)`;
+const expectedCodeString = `const contractAccount=await nearConnection.account(`;
 assert.include(actualCodeString, expectedCodeString);
 ```
 
@@ -511,11 +511,11 @@ You should import `WalletConnection` from `near-api-js`.
 
 ### --description--
 
-Within the `constructor`, initialize a `this.contract` property. Set it to `new Contract(contractAccount, contractName, {})`.
+Within the `constructor`, initialize a `this.contract` property. Set it to `new Contract(contractAccount, contractId, {})`.
 
 ### --tests--
 
-You should have `this.contract = new Contract(contractAccount, contractName, {});` in your `Wallet` class.
+You should have `this.contract = new Contract(contractAccount, contractId, {});` in your `Wallet` class.
 
 ```js
 
@@ -535,7 +535,7 @@ For the contract, allow the `viewHints`, `viewGuesses`, and `makeGuess` methods 
 
 ### --tests--
 
-You should have `this.contract = new Contract(contractAccount, contractName, { viewMethods: ['viewHints', 'viewGuesses'], changeMethods: ['makeGuess'] });` in your `Wallet` class.
+You should have `this.contract = new Contract(contractAccount, contractId, { viewMethods: ['viewHints', 'viewGuesses'], changeMethods: ['makeGuess'] });` in your `Wallet` class.
 
 ```js
 
@@ -601,7 +601,364 @@ You should have `return response;` in your `call` method.
 
 ### --description--
 
+In order to use a wallet for a transaction, you must be signed in to it.
 
+Add a `signIn` method to your `Wallet` class.
+
+### --tests--
+
+You should have a `signIn` method in your `Wallet` class.
+
+```js
+
+```
+
+## 27
+
+### --description--
+
+Within the `signIn` method, call the `requestSignIn` method on `this.walletConnection`.
+
+### --tests--
+
+You should have `this.walletConnection.requestSignIn();` in your `signIn` method.
+
+```js
+
+```
+
+## 28
+
+### --description--
+
+The `requestSignIn` method expects a `contractId` field where the `contractId` is the NEAR account where the contract is deployed.
+
+Pass `{contractId}` to the `requestSignIn` method.
+
+### --tests--
+
+You should have `this.walletConnection.requestSignIn({contractId});` in your `signIn` method.
+
+```js
+
+```
+
+## 29
+
+### --description--
+
+People using your app should be allowed to sign their wallet out of the app.
+
+Add a `signOut` method to your `Wallet` class.
+
+### --tests--
+
+You should have a `signOut` method in your `Wallet` class.
+
+```js
+
+```
+
+## 30
+
+### --description--
+
+Within the `signOut` method, call the `signOut` method on `this.walletConnection`.
+
+### --tests--
+
+You should have `this.walletConnection.signOut();` in your `signOut` method.
+
+```js
+
+```
+
+## 31
+
+### --description--
+
+
+Your `Wallet` class is finished. Now, use it in the `client/main.js` file.
+
+Start by importing it at the top of the `client/main.js` file.
+
+### --tests--
+
+You should have `import { Wallet } from './wallet.js';` at the top of your `client/main.js` file.
+
+```js
+
+```
+
+## 32
+
+### --description--
+
+Create a `const wallet` variable. Set it to a new instance of your `Wallet` class.
+
+### --tests--
+
+You should have `const wallet = new Wallet();` in your `client/main.js` file.
+
+```js
+
+```
+
+## 33
+
+### --description--
+
+Within the `window.onload` function, replace the `isSignedIn` value with the result of `wallet.walletConnection.isSignedIn()`.
+
+### --tests--
+
+You should have `const isSignedIn = wallet.walletConnection.isSignedIn();` in your `client/main.js` file.
+
+```js
+
+```
+
+## 34
+
+### --description--
+
+Within the `connectWalletBtn` click event listener callback, replace the `isSignedIn` value with the appropriate value.
+
+### --tests--
+
+You should have `const isSignedIn = wallet.walletConnection.isSignedIn();` in your `client/main.js` file.
+
+```js
+
+```
+
+## 35
+
+### --description--
+
+Within the `connectWalletBtn` click event listener callback, if the wallet is signed in, call the `signOut` method on the `wallet`.
+
+### --tests--
+
+You should have `wallet.signOut();` in your `client/main.js` file.
+
+```js
+
+```
+
+## 36
+
+### --description--
+
+Within the `connectWalletBtn` click event listener callback, if the wallet is not signed in, call the `signIn` method on the `wallet`.
+
+### --tests--
+
+You should have `wallet.signIn();` in your `client/main.js` file.
+
+```js
+
+```
+
+## 37
+
+### --description--
+
+At the bottom of the `client/main.js` file, declare an asynchronous function named `viewHints`.
+
+### --tests--
+
+You should have an asynchronous `viewHints` function at the bottom of your `client/main.js` file.
+
+```js
+
+```
+
+## 38
+
+### --description--
+
+Within the `viewHints` function, create a `const hints` variable, and assign it the result of calling the `call` method on the `wallet` such that the `word-guess` contract's `viewHints` method is called.
+
+### --tests--
+
+You should have `const hints = await wallet.call({ method: 'viewHints' });` in your `viewHints` function.
+
+```js
+
+```
+
+## 39
+
+### --description--
+
+Within the `viewHints` function, return the hints.
+
+### --tests--
+
+You should have `return hints;` in your `viewHints` function.
+
+```js
+
+```
+
+## 40
+
+### --description--
+
+At the bottom of the `client/main.js` file, declare an asynchronous function named `viewGuesses`.
+
+### --tests--
+
+You should have an asynchronous `viewGuesses` function at the bottom of your `client/main.js` file.
+
+```js
+
+```
+
+## 41
+
+### --description--
+
+Within the `viewGuesses` function, create a `const guesses` variable, and assign it the result of calling the `call` method on the `wallet` such that the `word-guess` contract's `viewGuesses` method is called.
+
+### --tests--
+
+You should have `const guesses = await wallet.call({ method: 'viewGuesses' });` in your `viewGuesses` function.
+
+```js
+
+```
+
+## 42
+
+### --description--
+
+Within the `viewGuesses` function, return the guesses.
+
+### --tests--
+
+You should have `return guesses;` in your `viewGuesses` function.
+
+```js
+
+```
+
+## 43
+
+### --description--
+
+At the bottom of the `client/main.js` file, declare an asynchronous function named `makeGuess`.
+
+### --tests--
+
+You should have an asynchronous `makeGuess` function at the bottom of your `client/main.js` file.
+
+```js
+
+```
+
+## 44
+
+### --description--
+
+Set the `makeGuess` function to have a parameter named `guess`.
+
+### --tests--
+
+You should have `async makeGuess(guess) {}` in your `client/main.js` file.
+
+```js
+
+```
+
+## 45
+
+### --description--
+
+Within the `makeGuess` function, create a `const resp` variable, and assign it the result of calling the `call` method on the `wallet` such that the `word-guess` contract's `makeGuess` method is called with the `guess` argument.
+
+### --tests--
+
+You should have `const resp = await wallet.call({ method: 'makeGuess', args: { guess } });` in your `makeGuess` function.
+
+```js
+
+```
+
+## 46
+
+### --description--
+
+Within the `makeGuess` function, return the response.
+
+### --tests--
+
+You should have `return resp;` in your `makeGuess` function.
+
+```js
+
+```
+
+## 47
+
+### --description--
+
+Within the `window.onload` function, replace the `guesses` value with the result of calling the `viewGuesses` function.
+
+### --tests--
+
+You should have `const guesses = await viewGuesses();` in your `client/main.js` file.
+
+```js
+
+```
+
+## 48
+
+### --description--
+
+Within the `guessBtn` click event listener callback, replace the `resp` value with the result of calling the `makeGuess` function with the `guess` value.
+
+### --tests--
+
+You should have `const resp = await makeGuess(guess);` in your `client/main.js` file.
+
+```js
+
+```
+
+## 49
+
+### --description--
+
+Within the `hintsBtn` click event listener callback, replace the `hints` value with the result of calling the `viewHints` function.
+
+### --tests--
+
+You should have `const hints = await viewHints();` in your `client/main.js` file.
+
+```js
+
+```
+
+## 50
+
+### --description--
+
+Run `npm run dev` to serve the web app on port `5173`.
+
+### --tests--
+
+You should have the app running on port `5173`.
+
+```js
+
+```
+
+## 51
+
+### --description--
 
 
 

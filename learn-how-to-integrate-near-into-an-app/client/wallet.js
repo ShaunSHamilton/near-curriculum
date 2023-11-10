@@ -11,29 +11,26 @@ const connectionConfig = {
 
 const nearConnection = await connect(connectionConfig);
 
-const contractName = "word-guess.tshaun.testnet";
+const contractId = "word-guess.tshaun.testnet";
 
-const contractAccount = await nearConnection.account(contractName);
+const contractAccount = await nearConnection.account("tshaun.testnet");
 
 export class Wallet {
   walletConnection;
   contract;
   constructor() {
     this.walletConnection = new WalletConnection(nearConnection, "word-guess");
-    this.contract = new Contract(contractAccount, contractName, {
+    this.contract = new Contract(contractAccount, contractId, {
       viewMethods: ['viewHints', 'viewGuesses'],
       changeMethods: ['makeGuess']
     });
   }
 
   signIn() {
+    this.walletConnection.
     this.walletConnection.requestSignIn({
-      contractId: contractName,
+      contractId,
     });
-  }
-
-  isSignedIn() {
-    return this.walletConnection.isSignedIn();
   }
 
   signOut() {

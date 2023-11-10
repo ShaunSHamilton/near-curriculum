@@ -1,36 +1,15 @@
-import { Wallet } from "./wallet.js";
+// ----------------------------------
+// IMPORT YOUR WALLET CLASS
+
+// ----------------------------------
 import {Buffer} from "buffer";
+import './style.css'
 
 window.Buffer = Buffer;
 window.global = {
   Buffer: Buffer,
   fetch: (...args) => fetch(...args)
 }
-
-import './style.css'
-
-const wallet = new Wallet();
-
-window.onload = async () => {
-  let isSignedIn = wallet.isSignedIn();
-
-  if (isSignedIn) {
-    connectWalletBtn.innerHTML = "Disconnect Wallet";
-  } else {
-  }
-  
-  // Get guesses
-  const guesses = await wallet.call({method: 'viewGuesses'});
-  console.log(guesses);
-  for (const guess of guesses) {
-    const li = document.createElement('li');
-    li.innerText = `${guess.guesser} guessed '${guess.guess}'`;
-    guessesOl.append(li);
-  }
-};
-
-
-
 
 const guessIn = document.querySelector("#guess");
 const hintsOl = document.querySelector("#hints");
@@ -40,26 +19,69 @@ const connectWalletBtn = document.querySelector("#connect-wallet");
 const responseP = document.querySelector('#response');
 const hintsBtn = document.querySelector("#hints-btn");
 
-connectWalletBtn.addEventListener('click', () => {
-  const isSignedIn = wallet.isSignedIn();
+// -------------------------
+// CREATE A WALLET INSTANCE
+
+// -------------------------
+
+window.onload = async () => {
+  // -----------------------------------------------------
+  // CHECK IF SIGNED IN
+  const isSignedIn = null;
+  // -----------------------------------------------------
+
   if (isSignedIn) {
-    wallet.signOut();
+    connectWalletBtn.innerHTML = "Disconnect Wallet";
+  } else {
+    connectWalletBtn.innerHTML = "Connect Wallet";
+  }
+  
+  // ---------------------------------
+  // GET THE GUESSES
+  // const guesses = await viewGuesses();
+  const guesses = null;
+  // ---------------------------------
+  for (const guess of guesses) {
+    const li = document.createElement('li');
+    li.innerText = `${guess.guesser} guessed '${guess.guess}'`;
+    guessesOl.append(li);
+  }
+};
+
+connectWalletBtn.addEventListener('click', () => {
+  // -----------------------------------------------------
+  // CHECK IF SIGNED IN
+  const isSignedIn = null;
+  // -----------------------------------------------------
+  if (isSignedIn) {
+    // --------------
+    // SIGN OUT
+
+    // --------------
     connectWalletBtn.innerHTML = "Connect Wallet";
   } else {
-    wallet.signIn();
+    // -------------
+    // SIGN IN
+
+    // -------------
     connectWalletBtn.innerHTML = "Disconnect Wallet";
   }
 });
 
 guessBtn.addEventListener('click', async () => {
   const guess = guessIn.value;
-  const resp = await wallet.call({method: "makeGuess", args: {guess}});
-  console.log("response: ", resp);
+  // ---------------------------------
+  // MAKE A GUESS
+  const resp = null;
+  // ---------------------------------
   responseP.innerText = resp;
 });
 
 hintsBtn.addEventListener('click', async () => {
-  const hints = await wallet.call({method: "viewHints"});
+  // -----------------------------
+  // GET THE HINTS
+  const hints = null;
+  // -----------------------------
   for (const hint of hints) {
     const li = document.createElement("li");
     li.innerText = hint;
